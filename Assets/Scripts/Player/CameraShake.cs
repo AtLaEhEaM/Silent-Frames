@@ -3,9 +3,8 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     [Header("References")]
-    public Transform playerBody;
-    public Transform cameraPivot;
     public Transform cameraHolder;
+    public Transform cameraPivot;
     public Movement movement;
 
     [Header("Mouse Settings")]
@@ -20,7 +19,7 @@ public class CameraController : MonoBehaviour
 
     [Header("Noise Shake")]
     public float noiseFrequency = 1f;
-    public float noiseAmplitude = 0.02f;
+    public float noiseAmplitude = 0.01f;
 
     float xRotation;
     float time;
@@ -32,22 +31,30 @@ public class CameraController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
 
         if (cameraHolder != null)
+        {
             baseLocalPos = cameraHolder.localPosition;
+        }
     }
 
-    void FixedUpdate()
+    void Update()
     {
-        float mouseX = Input.GetAxis("Mouse X") * sensitivity * Time.deltaTime;
-        float mouseY = Input.GetAxis("Mouse Y") * sensitivity * Time.deltaTime;
+        HandleMouseLook();
+        HandleCameraEffects();
+    }
 
-        playerBody.Rotate(Vector3.up * mouseX);
+    void HandleMouseLook()
+    {
+        float mouseX = Input.GetAxisRaw("Mouse X") * sensitivity * Time.deltaTime;
+        float mouseY = Input.GetAxisRaw("Mouse Y") * sensitivity * Time.deltaTime;
+
+        Quaternion yawRotation = Quaternion.Euler(0f, mouseX, 0f);
+
+        movement.rb.MoveRotation(movement.rb.rotation * yawRotation);
 
         xRotation -= mouseY;
         xRotation = Mathf.Clamp(xRotation, minX, maxX);
 
         cameraPivot.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
-
-        HandleCameraEffects();
     }
 
     void HandleCameraEffects()
@@ -60,10 +67,13 @@ public class CameraController : MonoBehaviour
         {
             time += Time.deltaTime * bobFrequency * bobSpeedMultiplier;
 
-            float x = Mathf.Sin(time) * bobAmplitude;
-            float y = Mathf.Cos(time * 2f) * bobAmplitude;
+            float y = Mathf.Sin(time) * bobAmplitude;
 
-            bobOffset = new Vector3(x, y, 0f);
+            bobOffset = new Vector3(0f, y, 0f);
+        }
+        else
+        {
+            time = 0f;
         }
 
         float noiseX = (Mathf.PerlinNoise(Time.time * noiseFrequency, 0f) - 0.5f) * noiseAmplitude;
@@ -71,9 +81,6 @@ public class CameraController : MonoBehaviour
 
         Vector3 noiseOffset = new Vector3(noiseX, noiseY, 0f);
 
-        if (cameraHolder != null)
-        {
-            cameraHolder.localPosition = baseLocalPos + bobOffset + noiseOffset;
-        }
+        cameraHolder.localPosition = baseLocalPos + bobOffset + noiseOffset;
     }
 }

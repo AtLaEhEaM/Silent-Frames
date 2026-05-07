@@ -15,44 +15,68 @@ public class Movement : MonoBehaviour
     public bool allowJumping = true;
 
     [Header("Ground Check")]
-
     public Transform groundCheck;
     public float groundDistance = 0.2f;
     public LayerMask groundMask = ~0;
 
+    [Header("References")]
     public Rigidbody rb;
 
     Vector3 movementInput;
     bool jumpRequested;
+
     int jumpsPerformed;
-    bool isGrounded;
-    public bool isMoving = false;
+
+    public bool isGrounded;
+    public bool isMoving;
 
     void Start()
     {
-        if (groundCheck == null) groundCheck = transform;
-        if (maxJumps < 1) maxJumps = 1;
-        if (rb == null) rb = GetComponent<Rigidbody>();
+        if (groundCheck == null)
+            groundCheck = transform;
+
+        if (rb == null)
+            rb = GetComponent<Rigidbody>();
+
+        if (maxJumps < 1)
+            maxJumps = 1;
+
+        rb.interpolation = RigidbodyInterpolation.Interpolate;
+        rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
+
+        rb.freezeRotation = true;
     }
 
     void Update()
     {
-        if (allowMovement)
-        {
-            float h = Input.GetAxisRaw("Horizontal");
-            float v = Input.GetAxisRaw("Vertical");
+        HandleInput();
+    }
 
-            Vector3 right = transform.right * h;
-            Vector3 forward = transform.forward * v;
-            Vector3 desired = (right + forward).normalized * moveSpeed;
-            movementInput = desired;
-            isMoving = movementInput.sqrMagnitude > 0.001f;
-        }
-        else
+    void FixedUpdate()
+    {
+        CheckGrounded();
+        HandleMovement();
+        HandleJump();
+    }
+
+    void HandleInput()
+    {
+        if (!allowMovement)
         {
             movementInput = Vector3.zero;
             isMoving = false;
+            return;
         }
+
+        float h = Input.GetAxisRaw("Horizontal");
+        float v = Input.GetAxisRaw("Vertical");
+
+        Vector3 move =
+            (transform.right * h + transform.forward * v).normalized;
+
+        movementInput = move * moveSpeed;
+
+        isMoving = move.sqrMagnitude > 0.001f;
 
         if (allowJumping && Input.GetButtonDown("Jump"))
         {
@@ -63,31 +87,44 @@ public class Movement : MonoBehaviour
         }
     }
 
-    void FixedUpdate()
+    void HandleMovement()
     {
-        CheckGrounded();
+        Vector3 velocity = rb.linearVelocity;
 
-        Vector3 vel = rb.velocity;
-        vel.x = movementInput.x;
-        vel.z = movementInput.z;
-        rb.velocity = vel;
+        velocity.x = movementInput.x;
+        velocity.z = movementInput.z;
 
-        if (jumpRequested)
-        {
-            Vector3 v = rb.velocity;
-            v.y = 0f;
-            rb.velocity = v;
+        rb.linearVelocity = velocity;
+    }
 
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange);
-            jumpsPerformed++;
-            jumpRequested = false;
-        }
+    void HandleJump()
+    {
+        if (!jumpRequested)
+            return;
+
+        Vector3 velocity = rb.linearVelocity;
+        velocity.y = 0f;
+
+        rb.linearVelocity = velocity;
+
+        rb.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange);
+
+        jumpsPerformed++;
+
+        jumpRequested = false;
     }
 
     void CheckGrounded()
     {
         bool wasGrounded = isGrounded;
-        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask, QueryTriggerInteraction.Ignore);
+
+        isGrounded = Physics.CheckSphere(
+            groundCheck.position,
+            groundDistance,
+            groundMask,
+            QueryTriggerInteraction.Ignore
+        );
+
         if (isGrounded && !wasGrounded)
         {
             jumpsPerformed = 0;
@@ -96,8 +133,11 @@ public class Movement : MonoBehaviour
 
     void OnDrawGizmosSelected()
     {
-        if (groundCheck == null) return;
+        if (groundCheck == null)
+            return;
+
         Gizmos.color = Color.yellow;
+
         Gizmos.DrawWireSphere(groundCheck.position, groundDistance);
     }
 }
