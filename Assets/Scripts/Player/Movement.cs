@@ -22,6 +22,9 @@ public class Movement : MonoBehaviour
     [Header("References")]
     public Rigidbody rb;
 
+    public AudioSource audioSource;
+    public AudioClip walkingClip;
+
     Vector3 movementInput;
     bool jumpRequested;
 
@@ -50,6 +53,23 @@ public class Movement : MonoBehaviour
     void Update()
     {
         HandleInput();
+
+        if (isMoving && isGrounded)
+        {
+            if (!audioSource.isPlaying)
+            {
+                audioSource.clip = walkingClip;
+                audioSource.loop = true;
+                audioSource.Play();
+            }
+        }
+        else
+        {
+            if (audioSource.isPlaying)
+            {
+                audioSource.Stop();
+            }
+        }
     }
 
     void FixedUpdate()
