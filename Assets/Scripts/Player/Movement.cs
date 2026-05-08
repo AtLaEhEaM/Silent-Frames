@@ -59,11 +59,12 @@ public class Movement : MonoBehaviour
             if (!audioSource.isPlaying)
             {
                 audioSource.clip = walkingClip;
-                audioSource.loop = true;
+                audioSource.loop = false;
                 audioSource.Play();
             }
         }
-        else
+
+        if (!isGrounded)
         {
             if (audioSource.isPlaying)
             {
