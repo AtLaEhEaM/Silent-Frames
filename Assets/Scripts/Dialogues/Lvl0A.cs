@@ -24,6 +24,10 @@ public class Lvl0A : MonoBehaviour
 
     bool isPlaying;
 
+    public Movement m;
+    public ActivateFlashLight f;
+    public GameObject ff;
+
     void Start()
     {
         StartCoroutine(starttt());
@@ -76,5 +80,11 @@ public class Lvl0A : MonoBehaviour
         subtitleText.text = "";
 
         isPlaying = false;
+
+        m.allowMovement = true;
+        m.allowJumping = true;
+
+        f.DisplayText();
+        f.allowedToDel = true;
     }
 }

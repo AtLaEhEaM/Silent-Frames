@@ -25480,59 +25480,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7535534405239908696, guid: 527633d0dd08a5b44a851a95c38e5ddb, type: 3}
   m_PrefabInstance: {fileID: 287811930}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &290576435
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 290576437}
-  - component: {fileID: 290576436}
-  m_Layer: 0
-  m_Name: dialogues
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &290576436
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 290576435}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f988c2f342cdc2442996d91a19228742, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audioSource: {fileID: 0}
-  playerr: {fileID: 0}
-  playyyer: 
-  subtitleText: {fileID: 0}
-  dialogueClips: []
-  pp: {fileID: 0}
-  subtitles: []
-  delayBetweenLines: 1
-  playOnStart: 1
---- !u!4 &290576437
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 290576435}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -28.4219, y: 5.282995, z: 13.11986}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &291390256
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -189284,6 +189231,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7550412525131205128, guid: 93b7ba04f575bfd499e1433bc9bb98b0, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.7
+      objectReference: {fileID: 0}
     - target: {fileID: 8822203522870575214, guid: 93b7ba04f575bfd499e1433bc9bb98b0, type: 3}
       propertyPath: moveSpeed
       value: 2
@@ -189483,4 +189434,3 @@ SceneRoots:
   - {fileID: 1715957758}
   - {fileID: 353339349}
   - {fileID: 513354450}
-  - {fileID: 290576437}
