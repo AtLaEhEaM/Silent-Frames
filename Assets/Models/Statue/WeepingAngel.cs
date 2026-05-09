@@ -21,6 +21,9 @@ public class YTWeepingAngel : MonoBehaviour
     bool walkPointSet;
     float distance;
 
+    public AudioSource audioSource;
+    public AudioClip walkingsfx;
+
     Renderer[] renderers;
 
     void Start()
@@ -40,6 +43,8 @@ public class YTWeepingAngel : MonoBehaviour
         {
             Patrolling();
         }
+
+        HandleWalkingAudio();
     }
 
     void HandleStalking()
@@ -124,6 +129,30 @@ public class YTWeepingAngel : MonoBehaviour
         {
             walkpoint = hit.position;
             walkPointSet = true;
+        }
+    }
+
+    void HandleWalkingAudio()
+    {
+        bool isMoving =
+            ai.velocity.magnitude > 0.1f &&
+            !isLookedAt;
+
+        if (isMoving)
+        {
+            if (!audioSource.isPlaying)
+            {
+                audioSource.clip = walkingsfx;
+                audioSource.loop = true;
+                audioSource.Play();
+            }
+        }
+        else
+        {
+            if (audioSource.isPlaying)
+            {
+                audioSource.Stop();
+            }
         }
     }
 }

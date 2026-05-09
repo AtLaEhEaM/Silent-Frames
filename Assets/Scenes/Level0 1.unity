@@ -890,7 +890,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 592462980}
-  - component: {fileID: 592462981}
   - component: {fileID: 592462982}
   m_Layer: 0
   m_Name: dilologue
@@ -914,32 +913,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &592462981
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 592462979}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f988c2f342cdc2442996d91a19228742, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audioSource: {fileID: 592462982}
-  playerr: {fileID: 836533316}
-  playyyer: where am I?
-  subtitleText: {fileID: 901703397}
-  dialogueClips:
-  - {fileID: 8300000, guid: 069494381992b92438047ed968101907, type: 3}
-  pp: {fileID: 8300000, guid: ca77748808b5aa745815f2222060fe67, type: 3}
-  subtitles:
-  - papapap
-  delayBetweenLines: 1
-  playOnStart: 0
-  m: {fileID: 710272706}
-  f: {fileID: 1248998038}
-  ff: {fileID: 1648823772}
 --- !u!82 &592462982
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1158,17 +1131,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 269506526}
   m_LocalEulerAnglesHint: {x: 73.316, y: -90, z: -90}
---- !u!114 &710272706 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8822203522870575214, guid: 93b7ba04f575bfd499e1433bc9bb98b0, type: 3}
-  m_PrefabInstance: {fileID: 836533313}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 268794209}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b9f6e39bc687c1e4fb3b1143b9c4cd57, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &836533313
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2529,11 +2491,6 @@ MonoBehaviour:
   player: {fileID: 836533314}
   moveSpeed: 5
   maxDistance: 0.025
---- !u!1 &1648823772 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2342674750778076962, guid: 93b7ba04f575bfd499e1433bc9bb98b0, type: 3}
-  m_PrefabInstance: {fileID: 836533313}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1689765901
 GameObject:
   m_ObjectHideFlags: 0
@@ -4452,6 +4409,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 7946596776814405, guid: 05021ebb90707364c9ab65676702ed1e, type: 3}
+    - {fileID: 8657888557971494022, guid: 05021ebb90707364c9ab65676702ed1e, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 05021ebb90707364c9ab65676702ed1e, type: 3}
