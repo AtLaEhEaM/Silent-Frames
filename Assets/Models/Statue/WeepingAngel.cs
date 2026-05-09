@@ -8,19 +8,15 @@ public class YTWeepingAngel : MonoBehaviour
     public Camera playerCam;
 
     [Header("Movement")]
-    public float aiSpeed;
-    public float senseRange;
-    public float walkPointRange;
+    public float aiSpeed = 3.5f;
+    public float senseRange = 15f;
+    public float rotationSpeed = 10f;
 
     [Header("States")]
     public bool isChasing;
-    public bool isPatrolling;
     public bool isLookedAt;
 
-    Vector3 walkpoint;
-    bool walkPointSet;
-    float distance;
-
+    [Header("Audio")]
     public AudioSource audioSource;
     public AudioClip walkingsfx;
 
@@ -29,19 +25,20 @@ public class YTWeepingAngel : MonoBehaviour
     void Start()
     {
         renderers = GetComponentsInChildren<Renderer>();
+
+        ai.speed = aiSpeed;
+
+        ai.updateRotation = false;
     }
 
     void Update()
     {
-        distance = Vector3.Distance(transform.position, player.position);
+        float distance =
+            Vector3.Distance(transform.position, player.position);
 
         if (distance < senseRange)
         {
             HandleStalking();
-        }
-        else
-        {
-            Patrolling();
         }
 
         HandleWalkingAudio();
@@ -49,16 +46,18 @@ public class YTWeepingAngel : MonoBehaviour
 
     void HandleStalking()
     {
-        Plane[] planes = GeometryUtility.CalculateFrustumPlanes(playerCam);
+        Plane[] planes =
+            GeometryUtility.CalculateFrustumPlanes(playerCam);
 
         isChasing = true;
-        isPatrolling = false;
 
         bool visible = false;
 
         for (int i = 0; i < renderers.Length; i++)
         {
-            if (GeometryUtility.TestPlanesAABB(planes, renderers[i].bounds))
+            if (GeometryUtility.TestPlanesAABB(
+                planes,
+                renderers[i].bounds))
             {
                 visible = true;
                 break;
@@ -81,55 +80,32 @@ public class YTWeepingAngel : MonoBehaviour
             isLookedAt = false;
 
             ai.speed = aiSpeed;
+
             ai.SetDestination(player.position);
+
+            RotateTowardsPlayer();
         }
     }
 
-    void Patrolling()
+    void RotateTowardsPlayer()
     {
-        isPatrolling = true;
-        isChasing = false;
-        isLookedAt = false;
+        Vector3 dir =
+            player.position - transform.position;
 
-        ai.speed = aiSpeed;
+        dir.y = 0f;
 
-        if (!walkPointSet)
-        {
-            SearchWalkPoint();
-        }
+        if (dir.sqrMagnitude < 0.01f)
+            return;
 
-        if (walkPointSet)
-        {
-            ai.SetDestination(walkpoint);
-        }
+        Quaternion targetRotation =
+            Quaternion.LookRotation(-dir);
 
-        Vector3 distanceToWalk = transform.position - walkpoint;
-
-        if (distanceToWalk.magnitude < 2f)
-        {
-            walkPointSet = false;
-        }
-    }
-
-    void SearchWalkPoint()
-    {
-        float randomX = Random.Range(-walkPointRange, walkPointRange);
-        float randomZ = Random.Range(-walkPointRange, walkPointRange);
-
-        Vector3 point =
-            new Vector3(
-                transform.position.x + randomX,
-                transform.position.y,
-                transform.position.z + randomZ
+        transform.rotation =
+            Quaternion.Slerp(
+                transform.rotation,
+                targetRotation,
+                rotationSpeed * Time.deltaTime
             );
-
-        NavMeshHit hit;
-
-        if (NavMesh.SamplePosition(point, out hit, walkPointRange, NavMesh.AllAreas))
-        {
-            walkpoint = hit.position;
-            walkPointSet = true;
-        }
     }
 
     void HandleWalkingAudio()
