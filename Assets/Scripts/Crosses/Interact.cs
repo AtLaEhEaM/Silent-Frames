@@ -16,7 +16,7 @@ public class PlayerInteract : MonoBehaviour
 
     void TryInteract()
     {
-        Ray ray = new Ray(playerCam.transform.position, playerCam.transform.forward);
+        Ray ray = playerCam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
         RaycastHit hit;
 
         if (Physics.Raycast(ray, out hit, interactDistance))

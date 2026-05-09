@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public class Table : MonoBehaviour, IInteractable
@@ -7,7 +8,7 @@ public class Table : MonoBehaviour, IInteractable
     public int c = 1;
     public LocalTeleport teleport;
     public GameObject statue;
-    
+    public TextMeshProUGUI text;
 
     public void Interact()
     {
@@ -16,8 +17,10 @@ public class Table : MonoBehaviour, IInteractable
             return;
         }
         crosses[cross].SetActive(true);
+        
         Inv.instance.crosses--;
         cross++;
+        text.text = "X" + Inv.instance.crosses;
         c++;
         if ((c == 4))
         {
