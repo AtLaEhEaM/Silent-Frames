@@ -7,7 +7,7 @@ public class ActivateFlashLight : MonoBehaviour
 
     public void DisplayText()
     {
-                flashLighttext.text = "Press /'F/' to toggle Flashlight";
+                flashLighttext.text = "Press 'F' to toggle Flashlight";
     }
 
     private void Update()
