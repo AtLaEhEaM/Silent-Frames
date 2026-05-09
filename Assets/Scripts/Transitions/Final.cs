@@ -7,6 +7,7 @@ public class LocalTeleport : MonoBehaviour
     public GameObject player;
     public GameObject cc;
     public Vector3 targetLocalPosition;
+    public eheheh e;
 
     public void Teleport()
     {
@@ -15,9 +16,10 @@ public class LocalTeleport : MonoBehaviour
 
     IEnumerator endingroutine()
     {
+        e.pppp();
         player.SetActive(false);
         cc.SetActive(true);
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(15f);
         SceneManager.LoadScene(0);
     }
 }
